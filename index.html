@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Free room-by-room domestic cleaning quote estimator for UK cleaning business owners. Research prototype: estimate labour time, costs and margins without signing up."><meta name="theme-color" content="#102e34"><title>CleanQuote Lab · Room-by-room cleaning quote demo</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#19343b;background:#f3f7f5;font-synthesis:none}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}.top{background:#12373b;color:white;padding:28px max(18px,calc((100% - 1110px)/2)) 32px}.pill{display:inline-block;padding:5px 11px;background:#2b5352;border-radius:99px;font-size:12px;letter-spacing:.04em;text-transform:uppercase}.top h1{font-size:clamp(27px,4vw,42px);margin:14px 0 7px;letter-spacing:-1.4px}.top p{max-width:690px;color:#c6dad8;margin:0;font-size:15px;line-height:1.55}.shell{max-width:1130px;margin:-8px auto 60px;padding:0 18px;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,1fr);gap:18px;align-items:start}.panel{background:white;border:1px solid #dfebe6;border-radius:18px;padding:23px;box-shadow:0 5px 20px #244d4210}.stack{display:grid;gap:18px}.panel h2{font-size:19px;letter-spacing:-.35px;margin:0 0 7px}.sub{color:#678087;font-size:13px;line-height:1.6;margin:0 0 20px}.room{display:grid;grid-template-columns:1.25fr .7fr .85fr .65fr 30px;gap:9px;align-items:end;border-top:1px solid #eef1ee;padding:14px 0}.room:first-child{border-top:0}.room .field small{white-space:nowrap}.field{display:grid;gap:5px;min-width:0}label,.field small{font-weight:650;color:#4b6166;font-size:12px}.field input,.field select{width:100%;height:39px;padding:8px 10px;border:1px solid #cfddd7;border-radius:9px;background:white;color:#1b343a;outline-offset:2px}.field input:focus,.field select:focus{border-color:#17816d;outline:2px solid #17816d33}.field input[type=number]{font-variant-numeric:tabular-nums}.room-duration{padding-bottom:10px;font-weight:750;color:#176752;font-size:14px}.delete{border:0;border-radius:9px;background:#f9eae9;color:#aa4141;width:30px;height:39px}.outline{background:white;border:1px solid #a7c8bb;padding:10px 14px;border-radius:10px;color:#155f52;font-weight:700}.outline:hover{background:#f0f8f4}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.inline-tip{margin-top:14px;background:#f4f8f6;border-radius:10px;padding:11px 13px;color:#5b7775;font-size:12px;line-height:1.6}.summary{position:sticky;top:16px}.total{background:#e8f4eb;padding:19px;border-radius:14px;border:1px solid #cce8d4}.total small{color:#3e7661;font-weight:750;text-transform:uppercase;font-size:11px;letter-spacing:.06em}.total strong{display:block;color:#0c5c42;font-size:40px;letter-spacing:-1px;margin:4px 0}.total p{font-size:12px;color:#507665;margin:0}.statrow{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #eaf0eb;font-size:14px}.statrow span{color:#5c7574}.statrow strong{font-variant-numeric:tabular-nums}.statrow.final{font-size:16px;border-bottom:0}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px}.primary{background:#146d58;border:1px solid #146d58;color:white;border-radius:10px;padding:11px 8px;font-weight:720}.primary:hover{background:#105744}.muted{font-size:12px;line-height:1.6;color:#667e7c}.warning{margin-top:12px;background:#fff4dd;border:1px solid #eed5a6;border-radius:11px;padding:12px;font-size:12px;color:#795628;line-height:1.6}.footer{grid-column:1/-1;font-size:12px;color:#718580;line-height:1.7}.status{min-height:19px;font-size:12px;color:#1c6b55;margin-top:10px}.error{color:#b24034}.num{font-variant-numeric:tabular-nums}.printonly{display:none}@media(max-width:850px){.shell{grid-template-columns:1fr}.summary{position:static}.room{grid-template-columns:1fr 1fr}.room .field:first-child{grid-column:1/-1}.room-duration{grid-column:1}.delete{grid-column:2;justify-self:end}.top{padding:24px 20px 35px}}@media(max-width:420px){.panel{padding:16px}.grid{gap:9px}.actions{grid-template-columns:1fr}}@media print{body{background:white}.top,.actions,.outline,.delete,.muted.noprint,.status{display:none!important}.shell{display:block;margin:0}.panel{box-shadow:none;break-inside:avoid}.summary{position:static;margin-top:20px}.printonly{display:block}.room input,.room select{border:none;padding:0;height:auto;appearance:none}.footer{margin-top:12px}}
+</style>
+</head>
+<body>
+<header class="top"><span class="pill">Service Quote Lab · Research pilot v0.4</span><h1>Cleaner quotes, without the guesswork.</h1><p>Build a room-by-room cleaning estimate, account for your real costs and see a suggested quote. No account or tracking. Your entries stay in this browser. You can use it offline after downloading the page.</p></header>
+<main class="shell">
+<div class="stack">
+<section class="panel"><h2>1. Rooms and estimated cleaning time</h2><p class="sub">Start with example times and adjust for your own experience. These durations are fictional demonstration defaults, not published industry standards.</p><div id="rooms"></div><button type="button" class="outline" id="addRoom">+ Add another room</button><div class="inline-tip">Room time = your base minutes × chosen condition multiplier. Extras such as oven cleaning can be added as another line.</div></section>
+<section class="panel"><h2>2. Costs and business assumptions</h2><p class="sub">Enter real hourly labour cost, travel, consumables and allocated overheads. A margin is different from a markup.</p><div class="grid">
+<div class="field"><label for="hourly">Labour cost per hour (£)</label><input id="hourly" type="number" min="0" max="1000" step="0.5" value="18"></div>
+<div class="field"><label for="travel">Travel cost per visit (£)</label><input id="travel" type="number" min="0" max="10000" step="0.5" value="8"></div>
+<div class="field"><label for="materials">Products and materials (£)</label><input id="materials" type="number" min="0" max="10000" step="0.5" value="6"></div>
+<div class="field"><label for="overhead">Allocated overhead (£)</label><input id="overhead" type="number" min="0" max="10000" step="0.5" value="7"></div>
+<div class="field"><label for="margin">Target profit margin (%)</label><input id="margin" type="number" min="0" max="80" step="1" value="25"></div>
+<div class="field"><label for="fee">Payment fee on pre-VAT price (%)</label><input id="fee" type="number" min="0" max="20" step="0.1" value="0"></div>
+<div class="field"><label for="vat">VAT on top of price</label><select id="vat"><option value="0">No VAT added</option><option value="20">20% (example)</option></select></div>
+<div class="field"><label for="round">Round suggested price up to</label><select id="round"><option value="0.01">£0.01</option><option value="1" selected>£1</option><option value="5">£5</option></select></div>
+</div><div class="inline-tip">Labour cost can include the value of your own time, not just wages. Enter VAT only if appropriate for your business; this demo does not determine VAT registration or tax treatment.</div></section>
+</div>
+<aside class="panel summary" aria-live="polite"><h2>3. Your quote</h2><p class="sub">Example estimate, calculated instantly as you edit.</p><div class="total"><small>Suggested customer quote</small><strong id="quote">£0.00</strong><p id="vatNote">Before VAT, if applicable</p></div>
+<div class="statrow"><span>Estimated cleaning time</span><strong id="hours">–</strong></div>
+<div class="statrow"><span>Labour cost</span><strong id="labourTotal">–</strong></div>
+<div class="statrow"><span>Other fixed job costs</span><strong id="otherCosts">–</strong></div>
+<div class="statrow"><span>Break-even before fees</span><strong id="cost">–</strong></div>
+<div class="statrow"><span>Price before VAT</span><strong id="exvat">–</strong></div>
+<div class="statrow"><span>Estimated processing fee</span><strong id="feeTotal">–</strong></div>
+<div class="statrow"><span>Expected job profit</span><strong id="profit">–</strong></div>
+<div class="statrow final"><span>Profit margin (pre-VAT)</span><strong id="realMargin">–</strong></div>
+<div id="issues" class="warning" hidden></div>
+<div class="actions"><button type="button" class="primary" id="copy">Copy internal estimate</button><button type="button" class="outline" id="export">Export internal CSV</button></div>
+<div class="status" id="status" role="status"></div><p class="muted noprint">Prices are estimates and not a promise of profit. They omit income tax and any unentered expenses. Keep internal costing private when giving quotes to customers.</p></aside>
+<div class="footer"><strong>Research testers:</strong> This is a prototype, not a quote recommendation. Feedback collection is not connected yet; please use only fictional job details. Do not share private client information.<p>Demonstration only · No customer information is sent by this calculator · All calculations run in this browser · Created as a market-validation concept, not yet available for sale.</p></div>
+</main>
+<script>
+'use strict';
+const defaults=[['Kitchen',35],['Bathroom',30],['Bedroom',25],['Living room',30]];
+const options=[['standard',1,'Standard'],['light',0.75,'Light'],['heavy',1.5,'Heavy']];
+let nextId=1;
+const rooms=[];
+const el=id=>document.getElementById(id);
+const money=n=>Number.isFinite(n)?new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'}).format(Math.abs(n)<0.000001?0:n):'–';
+const cleanNumber=(v,min=0,max=100000)=>{let n=Number(v);return v!==''&&Number.isFinite(n)&&n>=min&&n<=max?n:null};
+function createRoom(name='Extra task',minutes=20,condition='standard'){
+ const r={id:nextId++,name,minutes,condition};rooms.push(r);renderRooms();calculate();
+}
+function renderRooms(){const root=el('rooms');root.replaceChildren();
+ rooms.forEach(r=>{const item=document.createElement('div');item.className='room';
+ const field=(title,child)=>{const d=document.createElement('div');d.className='field';const l=document.createElement('small');l.textContent=title;d.append(l,child);return d};
+ const name=document.createElement('input');name.value=r.name;name.setAttribute('aria-label','Room or task name');name.maxLength=70;name.oninput=()=>{r.name=name.value;calculate()};
+ const mins=document.createElement('input');mins.type='number';mins.min='0';mins.max='1440';mins.step='5';mins.value=r.minutes;mins.setAttribute('aria-label','Base minutes for '+r.name);mins.oninput=()=>{r.minutes=mins.value;calculate()};
+ const cond=document.createElement('select');cond.setAttribute('aria-label','Cleaning condition for '+r.name);options.forEach(([key,,text])=>{const o=document.createElement('option');o.value=key;o.textContent=text;cond.append(o)});cond.value=r.condition;cond.onchange=()=>{r.condition=cond.value;calculate()};
+ const duration=document.createElement('div');duration.className='room-duration';duration.id='duration-'+r.id;duration.textContent='–';
+ const del=document.createElement('button');del.className='delete';del.type='button';del.textContent='×';del.title='Remove room';del.setAttribute('aria-label','Remove '+r.name);del.onclick=()=>{rooms.splice(rooms.findIndex(x=>x.id===r.id),1);renderRooms();calculate()};
+ item.append(field('Room / task',name),field('Base minutes',mins),field('Condition',cond),duration,del);root.append(item);
+ });
+}
+let last=null;
+function calculate(){const errors=[];let totalMin=0;const detail=[];
+ for(const r of rooms){const base=cleanNumber(r.minutes,0,1440);if(base===null){errors.push('Enter a valid base time for every room (0–1,440 minutes).');el('duration-'+r.id).textContent='Invalid';continue}const mult=options.find(x=>x[0]===r.condition)?.[1]??1;const dur=base*mult;totalMin+=dur;el('duration-'+r.id).textContent=Math.round(dur)+' min';detail.push({name:r.name,minutes:dur,condition:r.condition})}
+ if(rooms.length===0)errors.push('Add at least one room or task.');
+ const values={};for(const [key,max] of [['hourly',1000],['travel',10000],['materials',10000],['overhead',10000],['margin',80],['fee',20]]){values[key]=cleanNumber(el(key).value,0,max);if(values[key]===null)errors.push('Enter a valid '+key+' value.');}
+ if(values.margin!==null&&values.fee!==null&&values.margin+values.fee>=100)errors.push('Margin and processing fee cannot total 100% or more.');
+ const issue=el('issues');issue.hidden=errors.length===0;issue.textContent=errors.join(' ');
+ if(errors.length){for(const id of ['quote','hours','labourTotal','otherCosts','cost','exvat','feeTotal','profit','realMargin'])el(id).textContent='–';last=null;return}
+ const hrs=totalMin/60, labour=hrs*values.hourly,other=values.travel+values.materials+values.overhead,cost=labour+other;
+ const raw=cost/(1-values.margin/100-values.fee/100),step=Number(el('round').value),price=Math.ceil((raw-0.000000001)/step)*step;
+ const feeValue=price*values.fee/100,profit=price-cost-feeValue,realMargin=price>0?profit/price*100:0,vat=Number(el('vat').value),customer=price*(1+vat/100);
+ const cells={quote:money(customer),hours:hrs.toFixed(2)+' hrs',labourTotal:money(labour),otherCosts:money(other),cost:money(cost),exvat:money(price),feeTotal:money(feeValue),profit:money(profit),realMargin:realMargin.toFixed(1)+'%'};
+ Object.entries(cells).forEach(([id,val])=>el(id).textContent=val);
+ el('vatNote').textContent=vat?'Including '+vat+'% example VAT ('+money(customer-price)+')':'No VAT added';
+ last={...values,detail,totalMin,labour,other,cost,price,feeValue,profit,realMargin,vat,customer};
+}
+function summary(){if(!last)return '';const l=last;return ['CLEANQUOTE LAB — EXAMPLE JOB ESTIMATE','',...l.detail.map(r=>`${r.name || 'Unnamed task'}: ${r.minutes.toFixed(1)} min (${r.condition})`),'',`Total time: ${(l.totalMin/60).toFixed(2)} hrs`,`Labour: ${money(l.labour)}`,`Other costs: ${money(l.other)}`,`Break-even cost: ${money(l.cost)}`,`Price before VAT: ${money(l.price)}`,`Payment fee: ${money(l.feeValue)}`,`Expected job profit: ${money(l.profit)}`,`Expected profit margin: ${l.realMargin.toFixed(1)}%`,`Customer quote: ${money(l.customer)}`,'','Demo estimate only; review assumptions, tax and costs before using commercially.'].join('\n')}
+function status(message,error=false){el('status').textContent=message;el('status').className=error?'status error':'status'}
+el('copy').onclick=async()=>{if(!last)return status('Correct invalid values first.',true);try{await navigator.clipboard.writeText(summary());status('Estimate copied.')}catch{const t=document.createElement('textarea');t.value=summary();document.body.append(t);t.select();try{document.execCommand('copy');status('Estimate copied.')}catch{status('Copy is unavailable in this browser. Use Export CSV.',true)}t.remove()}};
+el('export').onclick=()=>{if(!last)return status('Correct invalid values first.',true);const l=last;const rows=[['Field','Value'],...l.detail.map(r=>['Room: '+r.name,r.minutes.toFixed(1)+' minutes']),['Total hours',(l.totalMin/60).toFixed(2)],['Estimated job cost',l.cost.toFixed(2)],['Price before VAT',l.price.toFixed(2)],['VAT rate',l.vat+'%'],['Customer quote',l.customer.toFixed(2)],['Estimated profit',l.profit.toFixed(2)],['Profit margin',l.realMargin.toFixed(1)+'%']];const safeCsv=v=>{let s=String(v);if(/^[\s\uFEFF]*[=+@\-\t\r]/.test(s))s="'"+s;return '"'+s.replaceAll('"','""')+'"'};const csv=rows.map(row=>row.map(safeCsv).join(',')).join('\r\n');const a=document.createElement('a');const url=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}));a.href=url;a.download='cleanquote-example-estimate.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);status('CSV downloaded.');};
+el('addRoom').onclick=()=>createRoom();
+for(const id of ['hourly','travel','materials','overhead','margin','fee','vat','round'])el(id).addEventListener('input',calculate);
+defaults.forEach(([name,min])=>{rooms.push({id:nextId++,name,minutes:min,condition:'standard'})});renderRooms();calculate();
+</script>
+</body></html>
